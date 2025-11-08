@@ -1,6 +1,6 @@
 // slices/branchSlice.js - Updated with featured branches handling
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios'; // Assuming axios is used for API calls; adjust if using fetch or another library
+import axiosInstance from '../api/axiosInstance'; // Updated import
 
 // Async thunks for CRUD operations
 export const createBranch = createAsyncThunk(
@@ -17,7 +17,7 @@ export const createBranch = createAsyncThunk(
         formData.append('branchImage', branchData.branchImage);
       }
 
-      const response = await axios.post('/api/branch', formData, {
+      const response = await axiosInstance.post('/api/branch', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       return response.data;
@@ -31,7 +31,7 @@ export const getAllBranches = createAsyncThunk(
   'branches/getAllBranches',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get('/api/branches');
+      const response = await axiosInstance.get('/api/branches');
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.error || 'Failed to fetch branches');
@@ -43,7 +43,7 @@ export const getBranchById = createAsyncThunk(
   'branches/getBranchById',
   async (id, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`/api/branch/${id}`);
+      const response = await axiosInstance.get(`/api/branch/${id}`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.error || 'Failed to fetch branch');
@@ -65,7 +65,7 @@ export const updateBranch = createAsyncThunk(
         formData.append('branchImage', branchData.branchImage);
       }
 
-      const response = await axios.put(`/api/branch/${id}`, formData, {
+      const response = await axiosInstance.put(`/api/branch/${id}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       return response.data;
@@ -79,7 +79,7 @@ export const deleteBranch = createAsyncThunk(
   'branches/deleteBranch',
   async (id, { rejectWithValue }) => {
     try {
-      const response = await axios.delete(`/api/branch/${id}`);
+      const response = await axiosInstance.delete(`/api/branch/${id}`);
       return { id, ...response.data };
     } catch (error) {
       return rejectWithValue(error.response?.data?.error || 'Failed to delete branch');
@@ -92,7 +92,7 @@ export const getFeaturedBranches = createAsyncThunk(
   'branches/getFeaturedBranches',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get('/api/branch/featured');
+      const response = await axiosInstance.get('/api/branch/featured');
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.error || 'Failed to fetch featured branches');
@@ -104,7 +104,7 @@ export const setFeaturedBranches = createAsyncThunk(
   'branches/setFeaturedBranches',
   async (branchIds, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/api/branch/set-featured', { branchIds });
+      const response = await axiosInstance.post('/api/branch/set-featured', { branchIds });
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.error || 'Failed to set featured branches');

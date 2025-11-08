@@ -1,6 +1,6 @@
 // slices/courseSlice.js - Updated with featured courses handling
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios'; // Assuming axios is used for API calls; adjust if using fetch or another library
+import axiosInstance from '../api/axiosInstance'; // Updated import
 
 // Helper function to prepare FormData for course creation/update
 const prepareFormData = (courseData, files = []) => {
@@ -34,7 +34,7 @@ export const createCourse = createAsyncThunk(
     try {
       const { files, ...dataWithoutFiles } = courseData;
       const formData = prepareFormData(dataWithoutFiles, files || []);
-      const response = await axios.post('/api/courses', formData, {
+      const response = await axiosInstance.post('/api/courses', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       return response.data;
@@ -48,7 +48,7 @@ export const getAllCourses = createAsyncThunk(
   'courses/getAllCourses',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get('/api/courses');
+      const response = await axiosInstance.get('/api/courses');
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.error || 'Failed to fetch courses');
@@ -60,7 +60,7 @@ export const getCourseById = createAsyncThunk(
   'courses/getCourseById',
   async (id, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`/api/courses/${id}`);
+      const response = await axiosInstance.get(`/api/courses/${id}`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.error || 'Failed to fetch course');
@@ -74,7 +74,7 @@ export const updateCourse = createAsyncThunk(
     try {
       const { files, ...dataWithoutFiles } = courseData;
       const formData = prepareFormData(dataWithoutFiles, files || []);
-      const response = await axios.put(`/api/courses/${id}`, formData, {
+      const response = await axiosInstance.put(`/api/courses/${id}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       return response.data;
@@ -88,7 +88,7 @@ export const deleteCourse = createAsyncThunk(
   'courses/deleteCourse',
   async (id, { rejectWithValue }) => {
     try {
-      const response = await axios.delete(`/api/courses/${id}`);
+      const response = await axiosInstance.delete(`/api/courses/${id}`);
       return { id, ...response.data };
     } catch (error) {
       return rejectWithValue(error.response?.data?.error || 'Failed to delete course');
@@ -101,7 +101,7 @@ export const getFeaturedCourses = createAsyncThunk(
   'courses/getFeaturedCourses',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get('/api/featured');
+      const response = await axiosInstance.get('/api/featured');
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.error || 'Failed to fetch featured courses');
@@ -113,7 +113,7 @@ export const setFeaturedCourses = createAsyncThunk(
   'courses/setFeaturedCourses',
   async (courseIds, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/api/set-featured', { courseIds });
+      const response = await axiosInstance.post('/api/set-featured', { courseIds });
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.error || 'Failed to set featured courses');
