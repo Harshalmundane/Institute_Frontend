@@ -1,6 +1,6 @@
 // slices/courseSlice.js - Updated with featured courses handling
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axiosInstance from '../api/axiosInstance'; // Updated import
+import axiosInstance from '../axiosInstance'; // Updated import
 
 // Helper function to prepare FormData for course creation/update
 const prepareFormData = (courseData, files = []) => {

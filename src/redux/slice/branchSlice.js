@@ -1,6 +1,6 @@
 // slices/branchSlice.js - Updated with featured branches handling
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axiosInstance from '../api/axiosInstance'; // Updated import
+import axiosInstance from '../axiosInstance'; // Updated import
 
 // Async thunks for CRUD operations
 export const createBranch = createAsyncThunk(
