@@ -7,7 +7,7 @@ import SignIn from './pages/auth/SignIn';
 import Admin from './pages/admin/AdminLayout';
 import CreateBranch from './componets/Branche/BranchForm'; 
 import CourseForm from './componets/Courses/CourseForm'; // Adjust path as needed for CourseForm
-
+// check fro the Update
 const AdminRoute = () => {
   const token = localStorage.getItem('token');
   return token ? <Admin /> : <Navigate to="/signin" replace />;
